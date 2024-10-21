@@ -8,6 +8,7 @@
            int Quntatity,
            decimal Price,
            int intLowStockThreshold
+           //List<Domain.Entities.InventoryTransaction> transaction
 
         );
 }

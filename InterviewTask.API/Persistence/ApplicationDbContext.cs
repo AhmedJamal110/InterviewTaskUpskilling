@@ -10,10 +10,13 @@ namespace InterviewTask.API.Persistence
 
     {
         private readonly CanceletionState _canceletionState;
+        private readonly UserState _userState;
 
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> option , CanceletionState canceletionState) : base(option)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> option 
+            , CanceletionState canceletionState , UserState userState) : base(option)
         {
             _canceletionState = canceletionState;
+            _userState = userState;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -35,7 +38,7 @@ namespace InterviewTask.API.Persistence
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.AddInterceptors(new CustomInterceptor(_canceletionState));
+                optionsBuilder.AddInterceptors(new CustomInterceptor(_canceletionState , _userState ));
             }
 
             base.OnConfiguring(optionsBuilder);
@@ -51,6 +54,9 @@ namespace InterviewTask.API.Persistence
         public DbSet<Product> Products { get; set; }
         public DbSet<InventoryTransaction> InventoryTransactions { get; set; }
         public DbSet<Warehouse> Warehouses { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<RoleFeautre> RoleFeautres { get; set; }
 
     }
 }

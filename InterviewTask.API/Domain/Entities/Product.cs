@@ -8,6 +8,7 @@
         public decimal Price { get; set; }
         public int LowStockThreshold { get; set; }
 
+        
         public ICollection<InventoryTransaction> Transactions { get; set; } = [];
     }
 }

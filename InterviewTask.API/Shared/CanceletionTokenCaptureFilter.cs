@@ -8,7 +8,8 @@ namespace InterviewTask.API.Shared
         private readonly CanceletionState _canceletionState;
         private readonly ILogger<CanceletionState> _logger;
 
-        public CanceletionTokenCaptureFilter(CanceletionState canceletionState , ILogger<CanceletionState> logger)
+        public CanceletionTokenCaptureFilter(CanceletionState canceletionState ,
+            ILogger<CanceletionState> logger )
         {
             _canceletionState = canceletionState;
             _logger = logger;

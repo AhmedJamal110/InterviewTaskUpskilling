@@ -7,8 +7,8 @@ using MediatR;
 
 namespace InterviewTask.API.Feature.Products.CreateProduct
 {
-    public record CreateProductCommand(string Name, string Description, int Quntatity, decimal Price, int intLowStockThreshold
-        ) : IRequest<Result<CreateProductResponse>>;
+    public record CreateProductCommand(string Name, string Description, int Quntatity, decimal Price, int LowStockThreshold
+     ) : IRequest<Result<CreateProductResponse>>;
 
 
     public class CreateProductHandler : IRequestHandler<CreateProductCommand, Result<CreateProductResponse>>

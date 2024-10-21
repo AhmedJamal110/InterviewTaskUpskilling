@@ -15,7 +15,7 @@ namespace InterviewTask.API.Feature.Products.UpdateProduct
             _sender = sender;
         }
 
-        [HttpPost("update-product/{id}")]
+        [HttpPut("update-product/{id}")]
         public async Task<ActionResult> UpdateProduct( [FromRoute] int id  ,  [FromBody] UpdateProductRequest request)
         {
             var result = await _sender.Send(new UpdateProudctCommand(

@@ -1,4 +1,4 @@
-﻿using InterviewTask.API.Domain.Const;
+﻿using InterviewTask.API.Domain.Enums;
 
 namespace InterviewTask.API.Domain.Entities
 {
