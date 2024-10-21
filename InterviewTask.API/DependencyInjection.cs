@@ -5,9 +5,13 @@ using InterviewTask.API.Persistence;
 using InterviewTask.API.Shared;
 using Mapster;
 using MapsterMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using System.Text;
 
 namespace InterviewTask.API
 {
@@ -25,8 +29,8 @@ namespace InterviewTask.API
             });
 
 
-           // services.AddScoped<CanceletionState>();
-            services.AddControllersWithViews( opt => opt.Filters.Add<CanceletionTokenCaptureFilter>());
+            // services.AddScoped<CanceletionState>();
+            services.AddControllersWithViews(opt => opt.Filters.Add<CanceletionTokenCaptureFilter>());
 
             // FluentValidation
             services.AddFluenentValidtionConfigration();
@@ -39,6 +43,9 @@ namespace InterviewTask.API
 
             // HangFire
             services.AddHangfireJobsConfigration(configuration);
+
+            // jwt
+            services.AddJwtServiceConfigration(configuration);
             return services;
         }
 
@@ -114,6 +121,33 @@ namespace InterviewTask.API
             return services;
         }
 
-    }
-}
 
+        private static IServiceCollection AddJwtServiceConfigration(this IServiceCollection services, IConfiguration configuration)
+        {
+
+
+            services.AddAuthentication(option =>
+            {
+                option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(opt =>
+                {
+                    opt.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Token:Key"])),
+                        ValidateIssuer = true,
+                        ValidIssuer = configuration["Token:ValidIssuer"],
+                        ValidateAudience = true,
+                        ValidAudience = configuration["Token:ValidAudiance"],
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero,
+                    };
+                });
+
+            return services;
+        }
+    }
+
+}
